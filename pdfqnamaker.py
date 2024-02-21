@@ -34,8 +34,6 @@ for i, page in enumerate(pdfreader.pages):
     if content:
         raw_text += content
 
-len(raw_text)
-
 # We need to split the text using Character Text Split such that it sshould not increse token size
 text_splitter = CharacterTextSplitter(
     separator = "\n",
@@ -58,9 +56,7 @@ chain = load_qa_chain(OpenAI(model_name="gpt-3.5-turbo-instruct",), chain_type="
 query = "Create all possible questions from the given document"#Don't say ten questions(maybe no questions or just one question)
 docs = document_search.similarity_search(query)#Look into max tokens(update it(gpt works such that the total sum of input and output is 4k))
 question = chain.run(input_documents=docs, question=query)#batching(context might get missed)
-question
 
-question
 # Split the string into a list using '\n' as the separator
 questions_list = question.split('\n')
 
@@ -68,7 +64,7 @@ questions_list = question.split('\n')
 questions = [question.strip() for question in questions_list if question.strip()]
 
 # Print the result
-questions
+print(questions)
 
 answers = []
 for q in questions:
@@ -77,5 +73,5 @@ for q in questions:
   answer = chain.run(input_documents=docs, question=query)
   answers.append(answer)
 
-answers
+print(answers)
 
